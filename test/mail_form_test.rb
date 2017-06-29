@@ -39,11 +39,11 @@ class MailForm::Test < ActiveSupport::TestCase
   end
 
   setup do
+    ActionMailer::Base.delivery_method = :test
     ActionMailer::Base.deliveries.clear
   end
 
   test "delivers an email with attributes" do
-    ::ActionMailer::Base.delivery_method = :test
 
     sample = SampleMail.new
     sample.email = "user@example.com"
