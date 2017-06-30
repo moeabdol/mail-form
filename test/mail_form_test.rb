@@ -44,7 +44,6 @@ class MailForm::Test < ActiveSupport::TestCase
   end
 
   test "delivers an email with attributes" do
-
     sample = SampleMail.new
     sample.email = "user@example.com"
     sample.deliver
@@ -52,5 +51,11 @@ class MailForm::Test < ActiveSupport::TestCase
     mail = ActionMailer::Base.deliveries.last
     assert_equal ["user@example.com"], mail.from
     assert_match "Email: user@example.com", mail.body.encoded
+  end
+
+  test "validates absence of nickname" do
+    sample = SampleMail.new(nickname: "Spam")
+    assert !sample.valid?
+    assert_equal ["is invalid"], sample.errors[:nickname]
   end
 end
